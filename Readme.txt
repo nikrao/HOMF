@@ -21,7 +21,7 @@ srow,scol = None,None   # LOCATION OF ROW AND COLUMN GRAPHS
 alpha = 1               # TRADEOFF BETWEEN GRAPH AND RATINGS
 ptype = 'linear'        # TRANSITION PROBABILITY FUNCTION
 thresh = 5              # THRESHOLD TO DETERMINE SUCCESS
-nproc  = 16             # NUMBER OF PROCESSORS TO USE
+nproc  = 8              # NUMBER OF PROCESSORS TO USE
 
 The file utilHOMF has all the utility functions, including ones to load data, and update the columns
 
