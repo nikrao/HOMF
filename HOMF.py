@@ -50,24 +50,24 @@ if __name__=='__main__':
     alpha = 1               # TRADEOFF BETWEEN GRAPH AND RATINGS
     ptype = 'linear'        # TRANSITION PROBABILITY FUNCTION
     thresh = 5              # THRESHOLD TO DETERMINE SUCCESS
-    nproc  = 16             # NUMBER OF PROCESSORS TO USE
+    nproc  = 8              # NUMBER OF PROCESSORS TO USE
     
     import sys
     foo= sys.argv
     for i in range(1,len(foo)):
-        if foo[i]=='-k':    k = int(float(foo[i+1]))        
-        if foo[i]=='-train':train = foo[i+1]
-        if foo[i]=='-val':  val = foo[i+1]
-        if foo[i]=='-siderow':srow = foo[i+1]
-        if foo[i]=='-sidecol':scol = foo[i+1]
-        if foo[i]=='-maxit': max_iter = int(float(foo[i+1]))            
-        if foo[i]=='-T':    T = int(float(foo[i+1]))
-        if foo[i]=='-cg':   cgiter = int(float(foo[i+1]))
-        if foo[i]=='-l':    lam = float(foo[i+1])
-        if foo[i]=='-ptype':ptype = foo[i+1]
-        if foo[i]=='-alpha':alpha = float(foo[i+1])
-        if foo[i]=='-thr':thresh = float(foo[i+1])
-        if foo[i]=='-nproc':nproc = int(float(foo[i+1]))
+        if foo[i]=='-k':        k = int(float(foo[i+1]))
+        if foo[i]=='-train':    train = foo[i+1]
+        if foo[i]=='-val':      val = foo[i+1]
+        if foo[i]=='-srow':     srow = foo[i+1]
+        if foo[i]=='-scol':     scol = foo[i+1]
+        if foo[i]=='-max_iter': max_iter = int(float(foo[i+1]))
+        if foo[i]=='-T':        T = int(float(foo[i+1]))
+        if foo[i]=='-cg':       cgiter = int(float(foo[i+1]))
+        if foo[i]=='-lam':      lam = float(foo[i+1])
+        if foo[i]=='-ptype':    ptype = foo[i+1]
+        if foo[i]=='-alpha':    alpha = float(foo[i+1])
+        if foo[i]=='-thresh':   thresh = float(foo[i+1])
+        if foo[i]=='-nproc':    nproc = int(float(foo[i+1]))
         
     savefile = ptype+'_'+str(lam)+'_'+str(T)+'_'+str(k)+'_'+str(alpha)+'.csv'
    
@@ -94,7 +94,7 @@ if __name__=='__main__':
     print('starting HOMF with k {} T {} lam {}'.format(k,T,lam))
     print('cyclic CD for %d iterations'%(max_iter))
 
-    p5,p10 = [],[];    
+    p5 = [];
     
     from pathos.multiprocessing import ProcessingPool as Pool
     idset = range(p)
@@ -120,15 +120,12 @@ if __name__=='__main__':
         
         tmp = uh.predict(U,bu,Rv,numuser)
         p5.append(uh.Calculate(tmp,n=5,thr=thresh))
-        p10.append(uh.Calculate(tmp,n=10,thr=thresh))
+        
        
     P.close()
     
     f = open(str(5)+savefile,'w')
     f.write('\n'.join('%s %s %s %s %s' % x for x in p5))
-    f.close()
-    f = open(str(10)+savefile,'w')
-    f.write('\n'.join('%s %s %s %s %s' % x for x in p10))
     f.close()
     
     print('done')
