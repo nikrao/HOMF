@@ -1,16 +1,20 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
+Created on Thu Nov  3 19:42:25 2016
+
+@author: raon
+"""
+
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
 Created on Sun Oct 30 16:55:41 2016
 
 @author: raon
 """
 
-'''
-Higher Order Matrix Factorization    
-'''
-
-
+# cyclic ALS for MF
 import numpy as np
 import numpy.random as nr
 #import utilHOMF100k as uh
@@ -99,12 +103,17 @@ if __name__=='__main__':
     preds = {}
     print('Initial Values')
     for t in range(max_iter):
-        print('Iter %d'%(t+1))        
-        Vlist = P.map(update_allcols,idset,[U for i in range(p)],chunksize=p/nproc)
+        from functools import partial
+        print('Iter %d'%(t+1))       
+        func = partial(update_allcols,U=U)
+        Vlist = P.map(func,idset,chunksize=p/nproc)
+        #Vlist = P.map(update_allcols,idset,[U for i in range(p)],chunksize=p/nproc)
         for i in range(len(Vlist)):
             V[Vlist[i][2],:] = Vlist[i][0]
-            bv[Vlist[i][2]]  = Vlist[i][1]    
-        Ulist = P.map(update_allrows,idset,[V for i in range(p)],chunksize=p/nproc)
+            bv[Vlist[i][2]]  = Vlist[i][1]
+        func = partial(update_allrows,V=V)
+        Ulist = P.map(func,idset,chunksize=p/nproc)
+        #Ulist = P.map(update_allrows,idset,[V for i in range(p)],chunksize=p/nproc)
         for i in range(len(Ulist)):
             U[Ulist[i][2],:] = Ulist[i][0]
             bu[Ulist[i][2]]  = Ulist[i][1]
