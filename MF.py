@@ -1,22 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Tue Nov 15 18:15:10 2016
-
-@author: raon
-"""
-
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Nov  3 19:42:25 2016
-
-@author: raon
-"""
-
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
 Created on Sun Oct 30 16:55:41 2016
 
 @author: raon
@@ -25,7 +9,7 @@ Created on Sun Oct 30 16:55:41 2016
 # cyclic ALS for MF
 import numpy as np
 import numpy.random as nr
-import utilHOMF100k as uh
+import utilHOMF as uh
 
 
 #%% all udpate functions to invoke later
